@@ -15,9 +15,11 @@
     "test": "vitest run",
     "test:ui": "playwright test",
     "db:push": "drizzle-kit push",
-    "db:seed": "tsx src/db/seed.ts"
+    "db:seed": "tsx src/db/seed.ts",
+    "generate-types": "wrangler types"
   },
   "dependencies": {
+    "@astrojs/cloudflare": "^14.1.1",
     "@astrojs/vue": "^7.0.1",
     "@libsql/client": "^0.17.4",
     "@tailwindcss/vite": "^4.3.2",
@@ -25,6 +27,7 @@
     "drizzle-orm": "^0.45.2",
     "tailwindcss": "^4.3.2",
     "vue": "^3.5.39",
+    "wrangler": "^4.107.0",
     "zod": "^4.4.3"
   },
   "devDependencies": {
