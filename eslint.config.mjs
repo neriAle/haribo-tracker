@@ -5,7 +5,7 @@ import tseslint from "typescript-eslint";
 
 export default [
   {
-    ignores: [".astro/**", "dist/**", "node_modules/**"],
+    ignores: [".astro/**", "dist/**", "node_modules/**", ".github/**"],
   },
 
   // Base ESLint & TypeScript Rules
