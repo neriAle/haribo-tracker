@@ -19,5 +19,8 @@
     "drizzle-orm": "^0.45.2",
     "tailwindcss": "^4.3.2",
     "vue": "^3.5.39"
+  },
+  "devDependencies": {
+    "drizzle-kit": "^0.31.10"
   }
 }
