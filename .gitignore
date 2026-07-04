@@ -24,4 +24,7 @@ pnpm-debug.log*
 .idea/
 .vscode/
 
+# wrangler
+.wrangler/
+
 local.db
