@@ -13,7 +13,9 @@
     "format:check": "prettier --check .",
     "lint": "eslint .",
     "test": "vitest run",
-    "test:ui": "playwright test"
+    "test:ui": "playwright test",
+    "db:push": "drizzle-kit push",
+    "db:seed": "tsx src/db/seed.ts"
   },
   "dependencies": {
     "@astrojs/vue": "^7.0.1",
@@ -22,11 +24,13 @@
     "astro": "^7.0.6",
     "drizzle-orm": "^0.45.2",
     "tailwindcss": "^4.3.2",
-    "vue": "^3.5.39"
+    "vue": "^3.5.39",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@playwright/test": "^1.61.1",
+    "dotenv": "^17.4.2",
     "drizzle-kit": "^0.31.10",
     "eslint": "^10.6.0",
     "eslint-plugin-astro": "^1.7.0",
@@ -34,6 +38,7 @@
     "prettier": "^3.9.4",
     "prettier-plugin-astro": "^0.14.1",
     "prettier-plugin-tailwindcss": "^0.8.0",
+    "tsx": "^4.23.0",
     "typescript-eslint": "^8.62.1",
     "vitest": "^4.1.9"
   }
