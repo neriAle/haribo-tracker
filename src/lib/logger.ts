@@ -1,5 +1,6 @@
 type LogLevel = "info" | "warn" | "error";
 
+/* eslint-disable  @typescript-eslint/no-explicit-any */
 export const logger = {
   log: (level: LogLevel, message: string, meta: Record<string, any> = {}) => {
     const logEntry = {
@@ -9,8 +10,8 @@ export const logger = {
       ...meta,
     };
 
-    const output = import.meta.env.DEV 
-      ? JSON.stringify(logEntry, null, 2) 
+    const output = import.meta.env.DEV
+      ? JSON.stringify(logEntry, null, 2)
       : JSON.stringify(logEntry);
 
     if (level === "error") {
@@ -21,7 +22,10 @@ export const logger = {
       console.info(output);
     }
   },
-  info: (msg: string, meta?: Record<string, any>) => logger.log("info", msg, meta),
-  warn: (msg: string, meta?: Record<string, any>) => logger.log("warn", msg, meta),
-  error: (msg: string, meta?: Record<string, any>) => logger.log("error", msg, meta),
+  info: (msg: string, meta?: Record<string, any>) =>
+    logger.log("info", msg, meta),
+  warn: (msg: string, meta?: Record<string, any>) =>
+    logger.log("warn", msg, meta),
+  error: (msg: string, meta?: Record<string, any>) =>
+    logger.log("error", msg, meta),
 };

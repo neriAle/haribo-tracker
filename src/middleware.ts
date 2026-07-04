@@ -9,8 +9,11 @@ export const onRequest = defineMiddleware(async (context, next) => {
   // 1. Define what needs protection
   const isApi = url.pathname.startsWith("/api/");
   const isAuthRoute = url.pathname.startsWith("/api/auth/");
-  const isWriteMethod = ["POST", "PUT", "DELETE", "PATCH"].includes(request.method);
-  const isProtectedUIPage = url.pathname.startsWith("/add") || url.pathname.startsWith("/edit");
+  const isWriteMethod = ["POST", "PUT", "DELETE", "PATCH"].includes(
+    request.method,
+  );
+  const isProtectedUIPage =
+    url.pathname.startsWith("/add") || url.pathname.startsWith("/edit");
 
   // 2. Auth Check
   if ((isApi && isWriteMethod && !isAuthRoute) || isProtectedUIPage) {
@@ -19,11 +22,11 @@ export const onRequest = defineMiddleware(async (context, next) => {
     if (sessionCookie?.value !== import.meta.env.SESSION_SECRET) {
       // Removed IP logging to avoid PII collection
       logger.warn("Unauthorized access attempt", { path: url.pathname });
-     
+
       if (isApi) {
-        return new Response(JSON.stringify({ error: "Unauthorized" }), { 
+        return new Response(JSON.stringify({ error: "Unauthorized" }), {
           status: 401,
-          headers: { "Content-Type": "application/json" }
+          headers: { "Content-Type": "application/json" },
         });
       }
       return context.redirect("/login");
@@ -35,7 +38,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
 
   // 4. Log the outcome
   const duration = Date.now() - startTime;
-  
+
   if (isApi || url.pathname === "/" || isProtectedUIPage) {
     logger.info("Request Processed", {
       method: request.method,
