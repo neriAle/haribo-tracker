@@ -17,7 +17,10 @@ describe("Auth Middleware", () => {
       cookies: { get: vi.fn() },
     };
 
-    const response = await onRequest(mockContext as any, mockNext) as Response;
+    const response = (await onRequest(
+      mockContext as any,
+      mockNext,
+    )) as Response;
 
     expect(mockNext).toHaveBeenCalled();
     expect(response.status).toBe(200);
@@ -30,7 +33,10 @@ describe("Auth Middleware", () => {
       cookies: { get: vi.fn().mockReturnValue(undefined) },
     };
 
-    const response = await onRequest(mockContext as any, mockNext) as Response;
+    const response = (await onRequest(
+      mockContext as any,
+      mockNext,
+    )) as Response;
 
     expect(mockNext).not.toHaveBeenCalled();
     expect(response.status).toBe(401);
@@ -45,7 +51,10 @@ describe("Auth Middleware", () => {
       cookies: { get: vi.fn().mockReturnValue({ value: "wrong-password" }) },
     };
 
-    const response = await onRequest(mockContext as any, mockNext) as Response;
+    const response = (await onRequest(
+      mockContext as any,
+      mockNext,
+    )) as Response;
 
     expect(mockNext).not.toHaveBeenCalled();
     expect(response.status).toBe(401);
@@ -58,7 +67,10 @@ describe("Auth Middleware", () => {
       cookies: { get: vi.fn().mockReturnValue({ value: "super-secret-key" }) },
     };
 
-    const response = await onRequest(mockContext as any, mockNext) as Response;
+    const response = (await onRequest(
+      mockContext as any,
+      mockNext,
+    )) as Response;
 
     expect(mockNext).toHaveBeenCalled();
     expect(response.status).toBe(200);
