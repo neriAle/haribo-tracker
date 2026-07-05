@@ -1,4 +1,3 @@
-// src/pages/api/categories/index.ts
 import type { APIRoute } from "astro";
 import { db } from "../../../db";
 import { logger } from "../../../lib/logger";
