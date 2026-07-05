@@ -20,6 +20,7 @@ export const insertPacketSchema = z.object({
   dateAcquired: z.string().nullable().optional(),
   locationAcquired: z.string().nullable().optional(),
   rating: ratingSchema,
+  comment: z.string().nullable().optional(),
 });
 
 // For PUT requests: allows partial updates
