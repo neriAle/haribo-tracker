@@ -5,6 +5,12 @@ import { insertPacketSchema } from "../../../db/validation";
 import { packets, packetCategories } from "../../../db/schema";
 import { logger } from "../../../lib/logger";
 
+/**
+ * Path:     GET /api/packets
+ * Params:   None
+ * Returns:  200 OK Array<{ id, name, language, imageUrl, rating, comment, ..., categories: Array<{ id, name }> }>
+ *           500 Internal Server Error { error: string }
+ */
 export const GET: APIRoute = async () => {
   try {
     const rawPackets = await db.query.packets.findMany({
@@ -35,6 +41,13 @@ export const GET: APIRoute = async () => {
   }
 };
 
+/**
+ * Path:     POST /api/packets
+ * Params:   Body { name: string, language: string, imageUrl: string, categoryIds: number[], rating: number, comment?: string, dateAcquired?: string, locationAcquired?: string }
+ * Returns:  201 Created { success: true, id: string }
+ *           400 Bad Request { error: string, details: object }
+ *           500 Internal Server Error { error: string }
+ */
 export const POST: APIRoute = async ({ request }) => {
   try {
     const body = await request.json();

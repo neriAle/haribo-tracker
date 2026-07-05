@@ -8,6 +8,14 @@ import { z } from "zod";
 
 const idSchema = z.uuid();
 
+/**
+ * Path:     GET /api/packets/[id]
+ * Params:   URL Param { id: UUID }
+ * Returns:  200 OK { id, name, language, imageUrl, rating, comment, ..., categories: Array<{ id, name }> }
+ *           400 Bad Request { error: string }
+ *           404 Not Found { error: string }
+ *           500 Internal Server Error { error: string }
+ */
 export const GET: APIRoute = async ({ params }) => {
   const { id } = params;
 
@@ -58,6 +66,15 @@ export const GET: APIRoute = async ({ params }) => {
   }
 };
 
+/**
+ * Path:     PUT /api/packets/[id]
+ * Params:   URL Param { id: UUID }
+ *           Body { name: string, language: string, imageUrl: string, categoryIds: number[], rating: number, comment?: string, dateAcquired?: string, locationAcquired?: string }
+ * Returns:  200 OK { success: true }
+ *           400 Bad Request { error: string, details?: object }
+ *           404 Not Found { error: string }
+ *           500 Internal Server Error { error: string }
+ */
 export const PUT: APIRoute = async ({ params, request }) => {
   const { id } = params;
 

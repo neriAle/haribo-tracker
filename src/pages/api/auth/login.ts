@@ -1,5 +1,12 @@
 import type { APIRoute } from "astro";
 
+/**
+ * Path:     POST /api/auth/login
+ * Params:   Body { password: string }
+ * Returns:  200 OK { success: true } (Includes Set-Cookie header)
+ *           401 Unauthorized { error: string }
+ *           400 Bad Request { error: string }
+ */
 export const POST: APIRoute = async ({ request, cookies }) => {
   try {
     const body = await request.json();
