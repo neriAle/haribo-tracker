@@ -14,22 +14,28 @@
     "lint": "eslint .",
     "test": "vitest run",
     "test:ui": "playwright test",
+    "coverage": "vitest run --coverage",
     "db:push": "drizzle-kit push",
-    "db:seed": "tsx src/db/seed.ts"
+    "db:seed": "tsx src/db/seed.ts",
+    "generate-types": "wrangler types"
   },
   "dependencies": {
+    "@astrojs/cloudflare": "^14.1.1",
     "@astrojs/vue": "^7.0.1",
     "@libsql/client": "^0.17.4",
     "@tailwindcss/vite": "^4.3.2",
     "astro": "^7.0.6",
+    "aws4fetch": "^1.0.20",
     "drizzle-orm": "^0.45.2",
     "tailwindcss": "^4.3.2",
     "vue": "^3.5.39",
+    "wrangler": "^4.107.0",
     "zod": "^4.4.3"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@playwright/test": "^1.61.1",
+    "@vitest/coverage-v8": "^4.1.9",
     "dotenv": "^17.4.2",
     "drizzle-kit": "^0.31.10",
     "eslint": "^10.6.0",
