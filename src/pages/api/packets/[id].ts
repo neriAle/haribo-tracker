@@ -148,3 +148,62 @@ export const PUT: APIRoute = async ({ params, request }) => {
     });
   }
 };
+
+/**
+ * Path:     DELETE /api/packets/[id]
+ * Params:   URL Param { id: UUID }
+ * Returns:  200 OK { success: true }
+ *           400 Bad Request { error: string }
+ *           404 Not Found { error: string }
+ *           500 Internal Server Error { error: string }
+ */
+export const DELETE: APIRoute = async ({ params }) => {
+  const { id } = params;
+
+  // 1. Sanitize ID
+  const parseIdResult = idSchema.safeParse(id);
+  if (!parseIdResult.success) {
+    logger.warn("Invalid packet ID format for deletion", { id });
+    return new Response(JSON.stringify({ error: "Invalid packet ID format" }), {
+      status: 400,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+
+  const cleanId = parseIdResult.data;
+
+  try {
+    // 2. Clean up junction table first to prevent orphaned data
+    await db
+      .delete(packetCategories)
+      .where(eq(packetCategories.packetId, cleanId));
+
+    // 3. Attempt the DELETE on the main table and capture the result
+    const deletedPacket = await db
+      .delete(packets)
+      .where(eq(packets.id, cleanId))
+      .returning({ id: packets.id });
+
+    // 4. If the array is empty, the packet never existed
+    if (deletedPacket.length === 0) {
+      logger.warn(`Attempted to delete non-existent packet`, { id: cleanId });
+      return new Response(JSON.stringify({ error: "Packet not found" }), {
+        status: 404,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+
+    logger.info(`Packet deleted successfully`, { id: cleanId });
+
+    return new Response(JSON.stringify({ success: true }), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    });
+  } catch (error) {
+    logger.error(`Failed to delete packet ${cleanId}`, { error });
+    return new Response(JSON.stringify({ error: "Internal Server Error" }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+};
