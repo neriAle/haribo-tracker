@@ -35,7 +35,12 @@ vi.mock("../lib/logger.ts", () => ({
   },
 }));
 
-// 4. Automatically clear mocks before every single test
+// 4. Mock astro:middleware (virtual module)
+vi.mock("astro:middleware", () => ({
+  defineMiddleware: vi.fn((fn) => fn),
+}));
+
+// 5. Automatically clear mocks before every single test
 beforeEach(() => {
   vi.clearAllMocks();
 });
