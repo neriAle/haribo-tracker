@@ -8,7 +8,6 @@ const idSchema = z.uuid();
 export const GET: APIRoute = async ({ params }) => {
   const { id } = params;
 
-  // Sanitize the input before hitting the database
   const parseResult = idSchema.safeParse(id);
   if (!parseResult.success) {
     logger.warn("Invalid packet ID format requested", { id });
@@ -25,9 +24,7 @@ export const GET: APIRoute = async ({ params }) => {
       where: (packets, { eq }) => eq(packets.id, cleanId),
       with: {
         packetCategories: {
-          with: {
-            category: true,
-          },
+          with: { category: true },
         },
       },
     });

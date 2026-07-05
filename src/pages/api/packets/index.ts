@@ -1,4 +1,3 @@
-// src/pages/api/packets/index.ts
 import type { APIRoute } from "astro";
 import { db } from "../../../db";
 import { logger } from "../../../lib/logger";
@@ -7,11 +6,7 @@ export const GET: APIRoute = async () => {
   try {
     const rawPackets = await db.query.packets.findMany({
       with: {
-        packetCategories: {
-          with: {
-            category: true,
-          },
-        },
+        packetCategories: { with: { category: true } },
       },
       orderBy: (packets, { desc }) => [desc(packets.createdAt)],
     });
