@@ -20,7 +20,7 @@ pnpm-debug.log*
 # macOS-specific files
 .DS_Store
 
-# jetbrains setting folder
+# IDE setting folder
 .idea/
 .vscode/
 
@@ -29,3 +29,6 @@ pnpm-debug.log*
 
 # database
 local.db
+
+# tests
+coverage/
