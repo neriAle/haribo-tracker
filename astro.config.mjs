@@ -1,7 +1,6 @@
 import { defineConfig } from "astro/config";
 import vue from "@astrojs/vue";
 import tailwindcss from "@tailwindcss/vite";
-
 import cloudflare from "@astrojs/cloudflare";
 
 export default defineConfig({
@@ -10,6 +9,7 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
   },
-
-  adapter: cloudflare(),
+  adapter: cloudflare({
+    imageService: "passthrough",
+  }),
 });
