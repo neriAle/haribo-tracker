@@ -45,8 +45,11 @@ describe("PUT /api/packets/[id]", () => {
   });
 
   it("should return 404 if the packet is not found", async () => {
-    // @ts-expect-error - Return an empty array to simulate non-existent record
-    db.update().set().where().returning.mockResolvedValue([]);
+    db.select()
+      // @ts-expect-error - Mocking from method
+      .from()
+      // @ts-expect-error - Mocking where to return empty array
+      .where.mockResolvedValueOnce([]);
 
     const request = new Request(`http://localhost/api/packets/${validUuid}`, {
       method: "PUT",
@@ -62,14 +65,16 @@ describe("PUT /api/packets/[id]", () => {
   });
 
   it("should return 500 if the database throws an error", async () => {
-    // @ts-expect-error - expected argument
-    db.update()
-      // @ts-expect-error - expected argument
-      .set()
-      // @ts-expect-error - expected argument
-      .where()
-      // @ts-expect-error - Mocking with the global chainable mock
-      .returning.mockRejectedValue(new Error("DB Crash"));
+    // @ts-expect-error - missing argument
+    const chain = db.select().from();
+
+    chain.where
+      // @ts-expect-error - Needs to return a Promise
+      .mockResolvedValueOnce([{ imageUrl: "https://example.com/old.png" }])
+      .mockReturnValueOnce(chain);
+
+    // @ts-expect-error - Mocking returning to throw error
+    chain.returning.mockRejectedValueOnce(new Error("DB Crash"));
 
     const request = new Request(`http://localhost/api/packets/${validUuid}`, {
       method: "PUT",
@@ -85,14 +90,17 @@ describe("PUT /api/packets/[id]", () => {
   });
 
   it("should return 200 OK on successful update", async () => {
-    // @ts-expect-error - expected argument
-    db.update()
-      // @ts-expect-error - expected argument
-      .set()
-      // @ts-expect-error - expected argument
-      .where()
-      // @ts-expect-error - Mocking with the global chainable mock
-      .returning.mockResolvedValue([{ id: validUuid }]);
+    // @ts-expect-error - missing argument
+    const chain = db.select().from();
+
+    chain.where
+      // @ts-expect-error - Needs to return a Promise
+      .mockResolvedValueOnce([{ imageUrl: "https://example.com/old.png" }])
+      .mockReturnValueOnce(chain)
+      .mockResolvedValueOnce([]);
+
+    // @ts-expect-error - Mocking returning to resolve with ID
+    chain.returning.mockResolvedValueOnce([{ id: validUuid }]);
 
     const request = new Request(`http://localhost/api/packets/${validUuid}`, {
       method: "PUT",
