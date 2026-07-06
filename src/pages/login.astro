@@ -1,26 +1,9 @@
 ---
-import "../styles/global.css";
+import BaseLayout from "../layouts/BaseLayout.astro";
 ---
 
-<html lang="it">
-  <head>
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-    />
-    <title>Accedi — Haribo Tracker</title>
-
-    <!-- iOS PWA Configuration to hide Safari bar from Home -->
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta
-      name="apple-mobile-web-app-status-bar-style"
-      content="black-translucent"
-    />
-  </head>
-  <body
-    class="flex min-h-screen items-center justify-center bg-neutral-50 px-4 font-sans text-neutral-900 select-none"
-  >
+<BaseLayout title="Accedi — Haribo Tracker" showHeader={false}>
+  <div class="flex flex-1 items-center justify-center">
     <div class="w-full max-w-sm text-center">
       <div
         class="mb-6 inline-flex h-20 w-20 animate-bounce items-center justify-center rounded-full bg-(--brand-yellow) text-4xl shadow-md"
@@ -50,7 +33,7 @@ import "../styles/global.css";
 
         <div
           id="error-message"
-          class="hidden animate-pulse rounded-xl border border-(--brand-red)/30 bg-(--brand-red)/10 p-3 text-sm font-medium text-(--brand-red)"
+          class="hidden animate-pulse rounded-xl border border-(--brand-pink)/30 bg-(--brand-pink)/10 p-3 text-sm font-medium text-(--brand-pink)"
         >
           Oopsie! Password errata. 🚫
         </div>
@@ -64,42 +47,40 @@ import "../styles/global.css";
         </button>
       </form>
     </div>
+  </div>
 
-    <!-- Script Client-Side for asynchronous authentication -->
-    <script>
-      const form = document.getElementById("login-form") as HTMLFormElement;
-      const errorDiv = document.getElementById(
-        "error-message",
-      ) as HTMLDivElement;
-      const passwordInput = document.getElementById(
-        "password",
-      ) as HTMLInputElement;
+  <!-- Script Client-Side for asynchronous authentication -->
+  <script>
+    const form = document.getElementById("login-form") as HTMLFormElement;
+    const errorDiv = document.getElementById("error-message") as HTMLDivElement;
+    const passwordInput = document.getElementById(
+      "password",
+    ) as HTMLInputElement;
 
-      form.addEventListener("submit", async (e) => {
-        e.preventDefault();
-        errorDiv.classList.add("hidden");
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      errorDiv.classList.add("hidden");
 
-        try {
-          const response = await fetch("/api/auth/login", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ password: passwordInput.value }),
-          });
+      try {
+        const response = await fetch("/api/auth/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ password: passwordInput.value }),
+        });
 
-          if (response.ok) {
-            window.location.href = "/";
-          } else {
-            errorDiv.classList.remove("hidden");
-            passwordInput.value = "";
-            passwordInput.focus();
-          }
-        } catch {
-          errorDiv.textContent = "Errore di connessione. Riprova più tardi.";
+        if (response.ok) {
+          window.location.href = "/";
+        } else {
           errorDiv.classList.remove("hidden");
+          passwordInput.value = "";
+          passwordInput.focus();
         }
-      });
-    </script>
-  </body>
-</html>
+      } catch {
+        errorDiv.textContent = "Errore di connessione. Riprova più tardi.";
+        errorDiv.classList.remove("hidden");
+      }
+    });
+  </script>
+</BaseLayout>
