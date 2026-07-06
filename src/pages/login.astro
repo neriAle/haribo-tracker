@@ -23,7 +23,7 @@ import "../styles/global.css";
   >
     <div class="w-full max-w-sm text-center">
       <div
-        class="mb-6 inline-flex h-20 w-20 animate-bounce items-center justify-center rounded-full bg-amber-400 text-4xl shadow-md"
+        class="mb-6 inline-flex h-20 w-20 animate-bounce items-center justify-center rounded-full bg-(--brand-yellow) text-4xl shadow-md"
       >
         🐻
       </div>
@@ -44,13 +44,13 @@ import "../styles/global.css";
             name="password"
             required
             placeholder="Password"
-            class="w-full rounded-2xl border border-neutral-200 bg-white px-5 py-4 text-center text-lg shadow-sm transition-all outline-none focus:border-amber-400 focus:ring-2 focus:ring-amber-100"
+            class="w-full rounded-2xl border border-neutral-200 bg-white px-5 py-4 text-center text-lg shadow-sm transition-all outline-none focus:border-(--brand-yellow) focus:ring-2 focus:ring-(--brand-yellow)/30"
           />
         </div>
 
         <div
           id="error-message"
-          class="hidden animate-pulse rounded-xl border border-red-100 bg-red-50 p-3 text-sm font-medium text-red-600"
+          class="hidden animate-pulse rounded-xl border border-(--brand-red)/30 bg-(--brand-red)/10 p-3 text-sm font-medium text-(--brand-red)"
         >
           Oopsie! Password errata. 🚫
         </div>
@@ -58,7 +58,7 @@ import "../styles/global.css";
         <!-- Submit Button -->
         <button
           type="submit"
-          class="w-full cursor-pointer rounded-2xl bg-amber-400 py-4 text-lg font-semibold text-neutral-950 shadow-md transition-all active:scale-[0.98] active:bg-amber-500"
+          class="w-full cursor-pointer rounded-2xl bg-(--brand-yellow) py-4 text-lg font-semibold text-neutral-950 shadow-md transition-all active:scale-[0.98] active:brightness-90"
         >
           Entra nell'archivio
         </button>
