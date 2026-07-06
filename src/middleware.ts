@@ -3,8 +3,11 @@ import { logger } from "./lib/logger";
 
 export const onRequest = defineMiddleware(async (context, next) => {
   // Removed clientAddress
-  const { url, request, cookies } = context;
+  const { url, request, cookies, locals } = context;
   const startTime = Date.now();
+
+  const env = (locals as any).runtime?.env ?? import.meta.env;
+  const sessionSecret = env.SESSION_SECRET;
 
   // 1. Define what needs protection
   const isApi = url.pathname.startsWith("/api/");
@@ -19,7 +22,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
   if ((isApi && isWriteMethod && !isAuthRoute) || isProtectedUIPage) {
     const sessionCookie = cookies.get("haribo_session");
 
-    if (sessionCookie?.value !== import.meta.env.SESSION_SECRET) {
+    if (sessionCookie?.value !== sessionSecret) {
       // Removed IP logging to avoid PII collection
       logger.warn("Unauthorized access attempt", { path: url.pathname });
 

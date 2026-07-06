@@ -7,12 +7,16 @@ import type { APIRoute } from "astro";
  *           401 Unauthorized { error: string }
  *           400 Bad Request { error: string }
  */
-export const POST: APIRoute = async ({ request, cookies }) => {
+export const POST: APIRoute = async ({ request, cookies, locals }) => {
   try {
     const body = await request.json();
 
-    if (body.password === import.meta.env.ADMIN_PASSWORD) {
-      cookies.set("haribo_session", import.meta.env.SESSION_SECRET, {
+    const env = (locals as any).runtime?.env ?? import.meta.env;
+    const adminPassword = env.ADMIN_PASSWORD;
+    const sessionSecret = env.SESSION_SECRET;
+
+    if (body.password === adminPassword) {
+      cookies.set("haribo_session", sessionSecret, {
         path: "/",
         httpOnly: true,
         secure: import.meta.env.PROD,
