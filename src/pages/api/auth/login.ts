@@ -1,5 +1,7 @@
 import type { APIRoute } from "astro";
 
+type CloudflareRuntime = { env: Record<string, string> };
+
 /**
  * Path:     POST /api/auth/login
  * Params:   Body { password: string }
@@ -11,7 +13,9 @@ export const POST: APIRoute = async ({ request, cookies, locals }) => {
   try {
     const body = await request.json();
 
-    const env = (locals as any).runtime?.env ?? import.meta.env;
+    const runtime = (locals as App.Locals & { runtime?: CloudflareRuntime })
+      .runtime;
+    const env = runtime?.env ?? import.meta.env;
     const adminPassword = env.ADMIN_PASSWORD;
     const sessionSecret = env.SESSION_SECRET;
 

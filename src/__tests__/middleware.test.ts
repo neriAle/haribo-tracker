@@ -13,8 +13,9 @@ describe("Auth Middleware", () => {
   it("should allow all GET requests to pass through", async () => {
     const mockContext = {
       request: new Request("http://localhost/api/packets", { method: "GET" }),
-      url: new URL("http://localhost/api/packets"), // Added url mock
+      url: new URL("http://localhost/api/packets"),
       cookies: { get: vi.fn() },
+      locals: {},
     };
 
     const response = (await onRequest(
@@ -29,8 +30,9 @@ describe("Auth Middleware", () => {
   it("should block POST requests if no cookie is provided", async () => {
     const mockContext = {
       request: new Request("http://localhost/api/packets", { method: "POST" }),
-      url: new URL("http://localhost/api/packets"), // Added url mock
+      url: new URL("http://localhost/api/packets"),
       cookies: { get: vi.fn().mockReturnValue(undefined) },
+      locals: {},
     };
 
     const response = (await onRequest(
@@ -47,8 +49,9 @@ describe("Auth Middleware", () => {
       request: new Request("http://localhost/api/packets/123", {
         method: "DELETE",
       }),
-      url: new URL("http://localhost/api/packets/123"), // Added url mock
+      url: new URL("http://localhost/api/packets/123"),
       cookies: { get: vi.fn().mockReturnValue({ value: "wrong-password" }) },
+      locals: {},
     };
 
     const response = (await onRequest(
@@ -63,8 +66,9 @@ describe("Auth Middleware", () => {
   it("should allow mutations if the correct cookie is provided", async () => {
     const mockContext = {
       request: new Request("http://localhost/api/packets", { method: "PUT" }),
-      url: new URL("http://localhost/api/packets"), // Added url mock
+      url: new URL("http://localhost/api/packets"),
       cookies: { get: vi.fn().mockReturnValue({ value: "super-secret-key" }) },
+      locals: {},
     };
 
     const response = (await onRequest(

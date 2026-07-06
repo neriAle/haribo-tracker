@@ -20,7 +20,11 @@ describe("Auth API Endpoints", () => {
         body: JSON.stringify({ password: "correct-password" }),
       });
 
-      const response = await login({ request, cookies: mockCookies } as any);
+      const response = await login({
+        request,
+        cookies: mockCookies,
+        locals: {},
+      } as any);
       const data = await response.json();
 
       expect(response.status).toBe(200);
@@ -46,7 +50,11 @@ describe("Auth API Endpoints", () => {
         body: JSON.stringify({ password: "wrong-password" }),
       });
 
-      const response = await login({ request, cookies: mockCookies } as any);
+      const response = await login({
+        request,
+        cookies: mockCookies,
+        locals: {},
+      } as any);
       const data = await response.json();
 
       expect(response.status).toBe(401);
@@ -64,7 +72,11 @@ describe("Auth API Endpoints", () => {
         body: "this is not valid json",
       });
 
-      const response = await login({ request, cookies: mockCookies } as any);
+      const response = await login({
+        request,
+        cookies: mockCookies,
+        locals: {},
+      } as any);
 
       expect(response.status).toBe(400);
       expect(mockCookies.set).not.toHaveBeenCalled();

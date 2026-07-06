@@ -1,12 +1,16 @@
 import { defineMiddleware } from "astro:middleware";
 import { logger } from "./lib/logger";
 
+type CloudflareRuntime = { env: Record<string, string> };
+
 export const onRequest = defineMiddleware(async (context, next) => {
   // Removed clientAddress
   const { url, request, cookies, locals } = context;
   const startTime = Date.now();
 
-  const env = (locals as any).runtime?.env ?? import.meta.env;
+  const runtime = (locals as App.Locals & { runtime?: CloudflareRuntime })
+    .runtime;
+  const env = runtime?.env ?? import.meta.env;
   const sessionSecret = env.SESSION_SECRET;
 
   // 1. Define what needs protection
