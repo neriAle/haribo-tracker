@@ -25,8 +25,11 @@ export default [
       },
     },
     rules: {
-      // Disables the requirement for multi-word component names
       "vue/multi-word-component-names": "off",
+      "vue/max-attributes-per-line": "off",
+      "vue/html-closing-bracket-newline": "off",
+      "vue/html-indent": "off",
+      "vue/html-self-closing": "off",
     },
   },
 
