@@ -40,7 +40,12 @@ vi.mock("astro:middleware", () => ({
   defineMiddleware: vi.fn((fn) => fn),
 }));
 
-// 5. Automatically clear mocks before every single test
+// 5. Mock cloudflare:workers
+vi.mock("cloudflare:workers", () => ({
+  env: {},
+}));
+
+// 6. Automatically clear mocks before every single test
 beforeEach(() => {
   vi.clearAllMocks();
 });

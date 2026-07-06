@@ -1,17 +1,14 @@
 import { defineMiddleware } from "astro:middleware";
 import { logger } from "./lib/logger";
-
-type CloudflareRuntime = { env: Record<string, string> };
+// @ts-expect-error - Virtual module provided by Cloudflare adapter
+import { env as cfEnv } from "cloudflare:workers";
 
 export const onRequest = defineMiddleware(async (context, next) => {
-  // Removed clientAddress
-  const { url, request, cookies, locals } = context;
+  const { url, request, cookies } = context;
   const startTime = Date.now();
 
-  const runtime = (locals as App.Locals & { runtime?: CloudflareRuntime })
-    .runtime;
-  const env = runtime?.env ?? import.meta.env;
-  const sessionSecret = env.SESSION_SECRET;
+  // Pull from Cloudflare at runtime, fallback to local env for dev/tests
+  const sessionSecret = cfEnv?.SESSION_SECRET ?? import.meta.env.SESSION_SECRET;
 
   // 1. Define what needs protection
   const isApi = url.pathname.startsWith("/api/");
@@ -27,7 +24,6 @@ export const onRequest = defineMiddleware(async (context, next) => {
     const sessionCookie = cookies.get("haribo_session");
 
     if (sessionCookie?.value !== sessionSecret) {
-      // Removed IP logging to avoid PII collection
       logger.warn("Unauthorized access attempt", { path: url.pathname });
 
       if (isApi) {

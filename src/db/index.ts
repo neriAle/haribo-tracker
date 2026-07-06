@@ -1,19 +1,15 @@
 import { drizzle } from "drizzle-orm/libsql";
 import { createClient } from "@libsql/client/web";
 import * as schema from "./schema";
+// @ts-expect-error - Virtual module provided by Cloudflare adapter
+import { env as cfEnv } from "cloudflare:workers";
 
-const url =
-  import.meta.env?.TURSO_DATABASE_URL || process.env.TURSO_DATABASE_URL;
-const authToken =
-  import.meta.env?.TURSO_AUTH_TOKEN || process.env.TURSO_AUTH_TOKEN;
+const url = cfEnv?.TURSO_DATABASE_URL ?? import.meta.env.TURSO_DATABASE_URL;
+const authToken = cfEnv?.TURSO_AUTH_TOKEN ?? import.meta.env.TURSO_AUTH_TOKEN;
 
-if (!url) {
-  throw new Error("Database URL is missing!");
-}
-
-const client = createClient({
-  url: url as string,
-  authToken: authToken as string | undefined,
+export const client = createClient({
+  url,
+  authToken,
 });
 
 export const db = drizzle(client, { schema });
