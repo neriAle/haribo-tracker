@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import GummyRater from "./GummyRater.vue";
+import { getCategoryStyle } from "../utils/categoryStyles";
 
 defineProps<{
   id: string;
@@ -9,36 +10,6 @@ defineProps<{
   categories: string[];
   rating?: number | null;
 }>();
-
-const getCategoryStyle = (category: string) => {
-  const styles: Record<string, { class?: string; style?: string }> = {
-    Gommose: {
-      style:
-        "background-color: color-mix(in srgb, var(--brand-yellow) 25%, transparent); color: #854d0e;",
-    },
-    Frizzanti: {
-      style:
-        "background-color: color-mix(in srgb, var(--brand-pink) 25%, transparent); color: #831843;",
-    },
-    Mix: {
-      style:
-        "background-color: color-mix(in srgb, var(--brand-blue) 20%, transparent); color: #1e3a8a;",
-    },
-    Marshmallow: {
-      style:
-        "background-color: color-mix(in srgb, var(--brand-green) 30%, transparent); color: #14532d;",
-    },
-    Natale: { style: "background-color: var(--brand-red); color: white;" },
-    "Limited Edition": {
-      style:
-        "background: linear-gradient(to right, var(--brand-pink), var(--brand-blue), var(--brand-green)); color: white;",
-    },
-    Liquirizie: { class: "bg-neutral-800 text-white" },
-    Pasqua: { class: "bg-teal-100 text-teal-800" },
-  };
-
-  return styles[category] || { class: "bg-neutral-100 text-neutral-600" };
-};
 </script>
 
 <template>
