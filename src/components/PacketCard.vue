@@ -9,6 +9,7 @@ defineProps<{
   imageUrl: string;
   categories: string[];
   rating?: number | null;
+  eagerLoad?: boolean;
 }>();
 </script>
 
@@ -25,6 +26,8 @@ defineProps<{
         v-if="imageUrl"
         :src="imageUrl"
         :alt="name"
+        :loading="eagerLoad ? 'eager' : 'lazy'"
+        decoding="async"
         class="h-full w-full object-contain drop-shadow-md transition-transform duration-300 group-hover:scale-105"
       />
 

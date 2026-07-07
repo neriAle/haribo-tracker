@@ -2,8 +2,11 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Dashboard from "../components/Dashboard.vue";
 import { db } from "../db";
-import { packets } from "../db/schema";
+import { packets, categories } from "../db/schema";
 import { asc } from "drizzle-orm";
+
+// Fetch all available categories for the filter bar
+const allCategories = await db.select().from(categories);
 
 // 1. Fetch all packets with their related categories
 const rawPackets = await db.query.packets.findMany({
@@ -23,9 +26,11 @@ const formattedPackets = rawPackets.map((packet) => ({
   name: packet.name,
   language: packet.language || "",
   locationAcquired: packet.locationAcquired || "",
+  dateAcquired: packet.dateAcquired || "",
   imageUrl: packet.imageUrl,
   rating: packet.rating || 0,
   categories: packet.packetCategories.map((pc) => pc.category.name),
+  createdAt: new Date(packet.createdAt).getTime(),
 }));
 ---
 
@@ -52,5 +57,9 @@ const formattedPackets = rawPackets.map((packet) => ({
     </a>
   </div>
 
-  <Dashboard client:load initialPackets={formattedPackets} />
+  <Dashboard
+    client:load
+    initialPackets={formattedPackets}
+    categories={allCategories}
+  />
 </BaseLayout>
