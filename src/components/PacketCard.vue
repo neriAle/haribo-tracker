@@ -5,7 +5,7 @@ import { getCategoryStyle } from "../utils/categoryStyles";
 defineProps<{
   id: string;
   name: string;
-  language: string;
+  locationAcquired?: string;
   imageUrl: string;
   categories: string[];
   rating?: number | null;
@@ -15,7 +15,7 @@ defineProps<{
 <template>
   <a
     :href="`/packet/${id}`"
-    class="group relative mb-4 block cursor-pointer break-inside-avoid flex-col overflow-hidden rounded-2xl border border-neutral-100 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md"
+    class="group relative flex h-full cursor-pointer flex-col overflow-hidden rounded-2xl border border-neutral-100 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md"
   >
     <!-- Image Section -->
     <div
@@ -36,11 +36,12 @@ defineProps<{
         🍬
       </div>
 
-      <!-- Language Tag -->
+      <!-- Location Tag -->
       <div
-        class="absolute top-2 left-2 rounded-md bg-white/80 px-2 py-0.5 text-xs font-bold tracking-wider text-neutral-600 uppercase shadow-sm backdrop-blur-sm"
+        v-if="locationAcquired"
+        class="absolute top-2 left-2 max-w-[calc(100%-1rem)] truncate rounded-md bg-white/80 px-2 py-0.5 text-xs font-bold tracking-wider text-neutral-600 uppercase shadow-sm backdrop-blur-sm"
       >
-        {{ language }}
+        {{ locationAcquired }}
       </div>
     </div>
 
