@@ -54,14 +54,8 @@ const submitForm = async () => {
     errorMessage.value = "";
     isSubmitting.value = true;
 
-    if (
-      !formData.value.name ||
-      !formData.value.language ||
-      formData.value.categoryIds.length === 0
-    ) {
-      throw new Error(
-        "Compila tutti i campi obbligatori (Nome, Lingua, Categoria).",
-      );
+    if (!formData.value.name || formData.value.categoryIds.length === 0) {
+      throw new Error("Compila tutti i campi obbligatori (Nome, Categoria).");
     }
 
     if (!formData.value.imageUrl && !croppedBlob.value) {
@@ -155,21 +149,6 @@ const handleDelete = async () => {
         />
       </div>
 
-      <div class="flex flex-col gap-2">
-        <label
-          for="language"
-          class="text-xs font-bold tracking-wider text-neutral-500 uppercase"
-          >Lingua *</label
-        >
-        <input
-          id="language"
-          v-model="formData.language"
-          type="text"
-          placeholder="es. IT, EN, NL"
-          class="rounded-xl border border-neutral-200 bg-white px-4 py-3 font-medium uppercase transition-colors outline-none focus:border-(--brand-yellow) focus:ring-2 focus:ring-(--brand-yellow)/20"
-        />
-      </div>
-
       <div class="flex flex-col gap-3">
         <label
           class="text-xs font-bold tracking-wider text-neutral-500 uppercase"
@@ -201,6 +180,21 @@ const handleDelete = async () => {
       class="flex flex-col gap-6 rounded-3xl border border-neutral-100 bg-white p-6 shadow-sm"
     >
       <h3 class="font-bold text-neutral-800">Dettagli Opzionali</h3>
+
+      <div class="flex flex-col gap-2">
+        <label
+          for="language"
+          class="text-xs font-bold tracking-wider text-neutral-500 uppercase"
+          >Lingua</label
+        >
+        <input
+          id="language"
+          v-model="formData.language"
+          type="text"
+          placeholder="es. IT, EN, NL"
+          class="rounded-xl border border-neutral-200 bg-neutral-50 px-4 py-3 font-medium uppercase transition-colors outline-none focus:border-(--brand-yellow) focus:bg-white"
+        />
+      </div>
 
       <div class="flex flex-col gap-3">
         <label

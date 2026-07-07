@@ -21,7 +21,7 @@ const rawPackets = await db.query.packets.findMany({
 const formattedPackets = rawPackets.map((packet) => ({
   id: packet.id,
   name: packet.name,
-  language: packet.language,
+  language: packet.language || "",
   imageUrl: packet.imageUrl,
   rating: packet.rating || 0,
   categories: packet.packetCategories.map((pc) => pc.category.name),
