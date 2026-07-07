@@ -13,12 +13,13 @@ defineProps<{
 </script>
 
 <template>
-  <div
-    class="group relative flex cursor-pointer flex-col overflow-hidden rounded-2xl border border-neutral-100 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md"
+  <a
+    :href="`/packet/${id}`"
+    class="group relative mb-4 block cursor-pointer break-inside-avoid flex-col overflow-hidden rounded-2xl border border-neutral-100 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md"
   >
     <!-- Image Section -->
     <div
-      class="relative flex aspect-square w-full items-center justify-center bg-neutral-50/50 p-4"
+      class="relative flex w-full items-center justify-center bg-neutral-50/50 p-4"
     >
       <img
         v-if="imageUrl"
@@ -75,5 +76,5 @@ defineProps<{
         <GummyRater :rating="rating" />
       </div>
     </div>
-  </div>
+  </a>
 </template>
