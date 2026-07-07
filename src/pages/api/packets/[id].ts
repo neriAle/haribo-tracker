@@ -167,6 +167,8 @@ export const PUT: APIRoute = async ({ params, request }) => {
       }
     }
 
+    packetData.language = packetData.language?.toUpperCase()
+
     // 5. Attempt the UPDATE and capture the result
     await db
       .update(packets)

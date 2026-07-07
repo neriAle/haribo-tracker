@@ -81,7 +81,7 @@ export const POST: APIRoute = async ({ request }) => {
       .insert(packets)
       .values({
         name: packetData.name,
-        language: packetData.language,
+        language: packetData.language?.toUpperCase(),
         imageUrl: packetData.imageUrl,
         dateAcquired: packetData.dateAcquired,
         locationAcquired: packetData.locationAcquired,
