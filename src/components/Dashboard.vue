@@ -10,6 +10,7 @@ type FormattedPacket = {
   name: string;
   language: string;
   locationAcquired?: string;
+  dateAcquired?: string;
   imageUrl: string;
   rating: number;
   categories: string[];
@@ -203,7 +204,7 @@ const displayedPackets = computed(() => {
       </div>
 
       <button
-        class="flex h-full w-12 shrink-0 items-center justify-center rounded-2xl border border-neutral-200 bg-white text-neutral-600 shadow-sm transition-colors hover:bg-neutral-50 active:scale-95"
+        class="flex h-12.5 w-12.5 shrink-0 items-center justify-center rounded-2xl border border-neutral-200 bg-white text-neutral-600 shadow-sm transition-colors hover:bg-(--brand-green) active:scale-95"
         :class="{
           'ring-2 ring-(--brand-yellow) ring-offset-1':
             advancedFilters.location ||
