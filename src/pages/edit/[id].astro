@@ -31,7 +31,7 @@ if (!packet) {
 const initialData = {
   id: packet.id,
   name: packet.name,
-  language: packet.language,
+  language: packet.language || "",
   imageUrl: packet.imageUrl,
   rating: packet.rating,
   dateAcquired: packet.dateAcquired || "",

@@ -3,7 +3,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import Dashboard from "../components/Dashboard.vue";
 import { db } from "../db";
 import { packets } from "../db/schema";
-import { desc } from "drizzle-orm";
+import { asc } from "drizzle-orm";
 
 // 1. Fetch all packets with their related categories
 const rawPackets = await db.query.packets.findMany({
@@ -14,7 +14,7 @@ const rawPackets = await db.query.packets.findMany({
       },
     },
   },
-  orderBy: [desc(packets.createdAt)],
+  orderBy: [asc(packets.name)],
 });
 
 // 2. Flatten the categories into a simple array of strings for the frontend
