@@ -39,3 +39,14 @@ export const savePacket = async (
     throw new Error(data.error || "Errore durante il salvataggio.");
   }
 };
+
+export const deletePacket = async (id: string) => {
+  const response = await fetch(`/api/packets/${id}`, {
+    method: "DELETE",
+  });
+
+  if (!response.ok) {
+    const data = await response.json();
+    throw new Error(data.error || "Errore durante l'eliminazione.");
+  }
+};

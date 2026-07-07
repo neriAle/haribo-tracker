@@ -3,7 +3,7 @@ import { ref } from "vue";
 import ImageUploader from "./ImageUploader.vue";
 import GummyRater from "./GummyRater.vue";
 import { getCategoryStyle } from "../utils/categoryStyles";
-import { uploadImageToR2, savePacket } from "../utils/api";
+import { uploadImageToR2, savePacket, deletePacket } from "../utils/api";
 
 type Category = { id: number; name: string };
 type PacketPayload = {
@@ -37,6 +37,7 @@ const formData = ref<PacketPayload>({
 
 const croppedBlob = ref<Blob | null>(null);
 const isSubmitting = ref(false);
+const isDeleting = ref(false);
 const errorMessage = ref("");
 
 const toggleCategory = (id: number) => {
@@ -84,6 +85,27 @@ const submitForm = async () => {
     errorMessage.value = error.message;
   } finally {
     isSubmitting.value = false;
+  }
+};
+
+const handleDelete = async () => {
+  if (!props.initialData?.id) return;
+
+  const confirmed = window.confirm(
+    `Sei sicuro di voler eliminare "${formData.value.name}"? Questa azione non può essere annullata.`,
+  );
+
+  if (!confirmed) return;
+
+  try {
+    errorMessage.value = "";
+    isDeleting.value = true;
+
+    await deletePacket(props.initialData.id);
+    window.location.href = "/";
+  } catch (error) {
+    errorMessage.value = error.message;
+    isDeleting.value = false;
   }
 };
 </script>
@@ -258,6 +280,18 @@ const submitForm = async () => {
         <span v-else>{{
           isEdit ? "Salva Modifiche" : "Aggiungi Pacchetto"
         }}</span>
+      </button>
+    </div>
+
+    <div v-if="isEdit" class="mt-4 flex w-full justify-center pb-6">
+      <button
+        type="button"
+        :disabled="isDeleting || isSubmitting"
+        class="w-full rounded-2xl bg-(--brand-red) py-4 text-center font-extrabold tracking-wide text-neutral-900 shadow-lg transition-all active:scale-95 disabled:opacity-50 disabled:active:scale-100"
+        @click="handleDelete"
+      >
+        <span v-if="isDeleting">Eliminazione in corso...</span>
+        <span v-else>Elimina Pacchetto</span>
       </button>
     </div>
   </form>
