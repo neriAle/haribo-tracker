@@ -40,7 +40,7 @@ const displayedPackets = ref(props.initialPackets);
       </p>
     </div>
 
-    <div v-else class="columns-2 gap-4 md:columns-3 lg:columns-4">
+    <div v-else class="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
       <PacketCard
         v-for="packet in displayedPackets"
         :key="packet.id"

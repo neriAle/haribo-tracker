@@ -15,7 +15,7 @@ defineProps<{
 <template>
   <a
     :href="`/packet/${id}`"
-    class="group relative mb-4 block cursor-pointer break-inside-avoid flex-col overflow-hidden rounded-2xl border border-neutral-100 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md"
+    class="group relative flex h-full cursor-pointer flex-col overflow-hidden rounded-2xl border border-neutral-100 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md"
   >
     <!-- Image Section -->
     <div
