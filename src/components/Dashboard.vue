@@ -6,6 +6,7 @@ type FormattedPacket = {
   id: string;
   name: string;
   language: string;
+  locationAcquired?: string;
   imageUrl: string;
   rating: number;
   categories: string[];

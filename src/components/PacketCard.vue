@@ -5,7 +5,7 @@ import { getCategoryStyle } from "../utils/categoryStyles";
 defineProps<{
   id: string;
   name: string;
-  language: string;
+  locationAcquired?: string;
   imageUrl: string;
   categories: string[];
   rating?: number | null;
@@ -36,11 +36,12 @@ defineProps<{
         🍬
       </div>
 
-      <!-- Language Tag -->
+      <!-- Location Tag -->
       <div
-        class="absolute top-2 left-2 rounded-md bg-white/80 px-2 py-0.5 text-xs font-bold tracking-wider text-neutral-600 uppercase shadow-sm backdrop-blur-sm"
+        v-if="locationAcquired"
+        class="absolute top-2 left-2 max-w-[calc(100%-1rem)] truncate rounded-md bg-white/80 px-2 py-0.5 text-xs font-bold tracking-wider text-neutral-600 uppercase shadow-sm backdrop-blur-sm"
       >
-        {{ language }}
+        {{ locationAcquired }}
       </div>
     </div>
 

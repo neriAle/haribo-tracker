@@ -22,6 +22,7 @@ const formattedPackets = rawPackets.map((packet) => ({
   id: packet.id,
   name: packet.name,
   language: packet.language || "",
+  locationAcquired: packet.locationAcquired || "",
   imageUrl: packet.imageUrl,
   rating: packet.rating || 0,
   categories: packet.packetCategories.map((pc) => pc.category.name),
