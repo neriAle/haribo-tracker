@@ -1,6 +1,6 @@
 # Haribo Tracker
 
-[![CI Build](https://img.shields.io/github/actions/workflow/status/neriAle/haribo-tracker/main.yml?style=for-the-badge&logo=githubactions&logoColor=white)](https://github.com/neriAle/haribo-tracker/actions)
+[![CI Build](https://img.shields.io/github/actions/workflow/status/neriAle/haribo-tracker/ci.yml?style=for-the-badge&logo=githubactions&logoColor=white)](https://github.com/neriAle/haribo-tracker/actions)
 [![Coverage](https://img.shields.io/codecov/c/github/neriAle/haribo-tracker?style=for-the-badge&logo=codecov&logoColor=white)](https://codecov.io/gh/neriAle/haribo-tracker)
 [![Gitmoji](https://img.shields.io/badge/gitmoji-%20😜%20😍-FFDD67.svg?style=for-the-badge)](https://gitmoji.dev)
 [![Astro](https://img.shields.io/badge/Astro-0C0E14?style=for-the-badge&logo=astro&logoColor=white)](https://astro.build/)
