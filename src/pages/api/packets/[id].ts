@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import type { APIRoute } from "astro";
 import { AwsClient } from "aws4fetch";
 import { db } from "../../../db";
@@ -194,7 +195,18 @@ export const PUT: APIRoute = async ({ params, request }) => {
       status: 200,
       headers: { "Content-Type": "application/json" },
     });
-  } catch (error) {
+  } catch (error: any) {
+    // Intercept SQLite unique constraint errors
+    if (error?.message?.includes("UNIQUE constraint failed: packets.name")) {
+      return new Response(
+        JSON.stringify({
+          error:
+            "Esiste già un pacchetto con questo nome. Usa un nome univoco (es. aggiungi '- EN').",
+        }),
+        { status: 400, headers: { "Content-Type": "application/json" } },
+      );
+    }
+
     logger.error(`Failed to update packet ${cleanId}`, { error });
     return new Response(JSON.stringify({ error: "Internal Server Error" }), {
       status: 500,
