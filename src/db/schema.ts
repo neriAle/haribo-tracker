@@ -14,7 +14,7 @@ export const packets = sqliteTable("packets", {
     .primaryKey()
     .$defaultFn(() => crypto.randomUUID()),
   name: text("name").notNull(),
-  language: text("language").notNull(),
+  language: text("language"),
   imageUrl: text("image_url").notNull(),
   dateAcquired: text("date_acquired"),
   locationAcquired: text("location_acquired"),

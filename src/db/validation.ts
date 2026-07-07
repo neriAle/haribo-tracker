@@ -12,7 +12,7 @@ const ratingSchema = z
 
 export const insertPacketSchema = z.object({
   name: z.string({ error: "Name is mandatory" }).min(1),
-  language: z.string({ error: "Language is mandatory" }).min(1),
+  language: z.string().nullable().optional(),
   imageUrl: z.url({ error: "Must be a valid URL" }),
   categoryIds: z
     .array(z.number())
