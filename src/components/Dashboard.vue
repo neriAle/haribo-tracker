@@ -95,9 +95,10 @@ const displayedPackets = computed(() => {
 
     <div v-else class="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
       <PacketCard
-        v-for="packet in displayedPackets"
+        v-for="(packet, index) in displayedPackets"
         :key="packet.id"
         v-bind="packet"
+        :eager-load="index < 4"
       />
     </div>
   </div>
