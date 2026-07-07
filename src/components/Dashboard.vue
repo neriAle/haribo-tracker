@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import PacketCard from "./PacketCard.vue";
+import { getCategoryStyle } from "../utils/categoryStyles";
 
 type FormattedPacket = {
   id: string;
@@ -12,12 +13,44 @@ type FormattedPacket = {
   categories: string[];
 };
 
+type Category = {
+  id: number;
+  name: string;
+};
+
 const props = defineProps<{
   initialPackets: FormattedPacket[];
+  categories: Category[];
 }>();
 
-// Stored in a ref so it can mutate with Fuse.js filtering
-const displayedPackets = ref(props.initialPackets);
+// Track which categories the user has clicked
+const selectedCategories = ref<string[]>([]);
+
+const toggleCategory = (categoryName: string) => {
+  const index = selectedCategories.value.indexOf(categoryName);
+  if (index === -1) {
+    selectedCategories.value.push(categoryName);
+  } else {
+    selectedCategories.value.splice(index, 1);
+  }
+};
+
+// This will automatically re-run whenever selectedCategories changes!
+const displayedPackets = computed(() => {
+  let result = props.initialPackets;
+
+  // Apply Category AND filtering
+  if (selectedCategories.value.length > 0) {
+    result = result.filter((packet) =>
+      // The packet must include EVERY category that is currently selected
+      selectedCategories.value.every((selectedCat) =>
+        packet.categories.includes(selectedCat),
+      ),
+    );
+  }
+
+  return result;
+});
 </script>
 
 <template>
@@ -29,6 +62,27 @@ const displayedPackets = ref(props.initialPackets);
     </div>
 
     <div
+      class="flex w-full gap-2 overflow-x-auto pt-1 pb-2 [&::-webkit-scrollbar]:hidden"
+    >
+      <button
+        v-for="cat in categories"
+        :key="cat.id"
+        type="button"
+        class="shrink-0 rounded-full px-4 py-2 text-sm font-bold tracking-wider uppercase transition-all"
+        :class="[
+          selectedCategories.includes(cat.name)
+            ? 'scale-105 shadow-md ring-2 ring-neutral-300 ring-offset-1'
+            : 'opacity-50 grayscale hover:opacity-100 hover:grayscale-0',
+          getCategoryStyle(cat.name).class,
+        ]"
+        :style="getCategoryStyle(cat.name).style"
+        @click="toggleCategory(cat.name)"
+      >
+        {{ cat.name }}
+      </button>
+    </div>
+
+    <div
       v-if="displayedPackets.length === 0"
       class="flex flex-col items-center justify-center py-20 text-center"
     >
@@ -36,9 +90,7 @@ const displayedPackets = ref(props.initialPackets);
       <h3 class="text-lg font-bold text-neutral-900">
         Nessun pacchetto trovato
       </h3>
-      <p class="text-sm text-neutral-500">
-        Inizia ad aggiungere la tua collezione!
-      </p>
+      <p class="text-sm text-neutral-500">Prova a rimuovere qualche filtro!</p>
     </div>
 
     <div v-else class="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
