@@ -28,6 +28,7 @@ const initCropper = () => {
       center: true,
       highlight: false,
       responsive: true,
+      checkOrientation: false,
     });
   }
 };
@@ -69,7 +70,9 @@ const handleCrop = () => {
 </script>
 
 <template>
-  <div class="fixed inset-0 z-50 flex flex-col bg-black/95 backdrop-blur-md">
+  <div
+    class="fixed inset-0 z-50 flex touch-none flex-col bg-black/95 backdrop-blur-md"
+  >
     <div class="pt-safe flex items-center justify-between p-4 text-white">
       <button
         type="button"
