@@ -35,7 +35,7 @@ const { title = "Haribo Tracker", showHeader = true } = Astro.props;
     />
   </head>
   <body
-    class="flex min-h-screen flex-col bg-neutral-50 font-sans text-neutral-900 select-none"
+    class="flex min-h-screen flex-col bg-neutral-50 pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)] font-sans text-neutral-900 select-none"
   >
     {showHeader && <Header />}
 
