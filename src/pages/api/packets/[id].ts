@@ -232,11 +232,11 @@ export const DELETE: APIRoute = async ({ params }) => {
       .delete(packetCategories)
       .where(eq(packetCategories.packetId, cleanId));
 
-    // 3. Attempt the DELETE on the main table and capture the result
+    // 3. Attempt the DELETE on the main table and capture both ID and imageUrl
     const deletedPacket = await db
       .delete(packets)
       .where(eq(packets.id, cleanId))
-      .returning({ id: packets.id });
+      .returning({ id: packets.id, imageUrl: packets.imageUrl });
 
     // 4. If the array is empty, the packet never existed
     if (deletedPacket.length === 0) {
@@ -245,6 +245,53 @@ export const DELETE: APIRoute = async ({ params }) => {
         status: 404,
         headers: { "Content-Type": "application/json" },
       });
+    }
+
+    // 5. Delete the associated image from R2
+    const { imageUrl } = deletedPacket[0];
+    if (imageUrl) {
+      try {
+        const url = new URL(imageUrl);
+        const fileKey = url.pathname.substring(
+          url.pathname.lastIndexOf("/") + 1,
+        );
+
+        const accessKeyId =
+          cfEnv?.R2_ACCESS_KEY_ID ?? import.meta.env.R2_ACCESS_KEY_ID;
+        const secretAccessKey =
+          cfEnv?.R2_SECRET_ACCESS_KEY ?? import.meta.env.R2_SECRET_ACCESS_KEY;
+        const endpoint = cfEnv?.R2_ENDPOINT ?? import.meta.env.R2_ENDPOINT;
+        const bucketName =
+          cfEnv?.R2_BUCKET_NAME ?? import.meta.env.R2_BUCKET_NAME;
+
+        if (accessKeyId && secretAccessKey && endpoint && bucketName) {
+          const aws = new AwsClient({
+            accessKeyId,
+            secretAccessKey,
+            service: "s3",
+            region: "auto",
+          });
+
+          const bucketUrl = `${endpoint}/${bucketName}/${fileKey}`;
+
+          const deleteResponse = await aws.fetch(bucketUrl, {
+            method: "DELETE",
+          });
+
+          if (deleteResponse.ok) {
+            logger.info(`Deleted image from R2`, { fileKey });
+          } else {
+            logger.warn(`Failed to delete image from R2`, {
+              status: deleteResponse.status,
+              fileKey,
+            });
+          }
+        } else {
+          logger.warn("Missing R2 credentials, skipping image deletion");
+        }
+      } catch (error) {
+        logger.error(`Error attempting to delete image from R2`, { error });
+      }
     }
 
     logger.info(`Packet deleted successfully`, { id: cleanId });
