@@ -4,6 +4,7 @@ import { vi, beforeEach } from "vitest";
 const chainableDbMock = {
   values: vi.fn().mockReturnThis(),
   set: vi.fn().mockReturnThis(),
+  from: vi.fn().mockReturnThis(),
   where: vi.fn().mockReturnThis(),
   returning: vi.fn(),
 };
@@ -20,6 +21,7 @@ vi.mock("../db/index.ts", () => ({
         findMany: vi.fn(),
       },
     },
+    select: vi.fn(() => chainableDbMock),
     insert: vi.fn(() => chainableDbMock),
     update: vi.fn(() => chainableDbMock),
     delete: vi.fn(() => chainableDbMock),

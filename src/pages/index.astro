@@ -1,17 +1,55 @@
 ---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Dashboard from "../components/Dashboard.vue";
+import { db } from "../db";
+import { packets } from "../db/schema";
+import { desc } from "drizzle-orm";
 
+// 1. Fetch all packets with their related categories
+const rawPackets = await db.query.packets.findMany({
+  with: {
+    packetCategories: {
+      with: {
+        category: true,
+      },
+    },
+  },
+  orderBy: [desc(packets.createdAt)],
+});
+
+// 2. Flatten the categories into a simple array of strings for the frontend
+const formattedPackets = rawPackets.map((packet) => ({
+  id: packet.id,
+  name: packet.name,
+  language: packet.language,
+  imageUrl: packet.imageUrl,
+  rating: packet.rating || 0,
+  categories: packet.packetCategories.map((pc) => pc.category.name),
+}));
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" href="/favicon.ico" />
-    <meta name="viewport" content="width=device-width" />
-    <meta name="generator" content={Astro.generator} />
-    <title>Astro</title>
-  </head>
-  <body>
-    <h1>Astro</h1>
-  </body>
-</html>
+<BaseLayout title="La mia Collezione — Haribo Tracker">
+  <div class="mb-8 flex items-center justify-between pt-4">
+    <h1 class="text-3xl font-extrabold tracking-tight text-neutral-900">
+      Collezione
+    </h1>
+    <a
+      href="/add"
+      class="flex h-10 w-10 items-center justify-center rounded-full bg-(--brand-yellow) font-bold text-black shadow-md transition-transform hover:scale-105 active:scale-95"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-6 w-6"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        stroke-width="2.5"
+      >
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"
+        ></path>
+      </svg>
+    </a>
+  </div>
+
+  <Dashboard client:load initialPackets={formattedPackets} />
+</BaseLayout>

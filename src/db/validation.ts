@@ -2,7 +2,7 @@ import { z } from "zod";
 
 const ratingSchema = z
   .number()
-  .min(0.5, { error: "Rating must be at least 0.5" })
+  .min(0, { error: "Rating must be at least 0" })
   .max(5, { error: "Rating cannot exceed 5.0" })
   .refine((val) => val % 0.5 === 0, {
     message: "Rating must be in 0.5 increments",

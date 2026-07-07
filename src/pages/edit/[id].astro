@@ -1,0 +1,53 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PacketForm from "../../components/PacketForm.vue";
+import { db } from "../../db";
+import { packets, categories } from "../../db/schema";
+import { eq } from "drizzle-orm";
+
+const { id } = Astro.params;
+
+if (!id) {
+  return Astro.redirect("/404");
+}
+
+// 1. Fetch all available categories for the picker
+const allCategories = await db.select().from(categories);
+
+// 2. Fetch the specific packet and its associated categories
+const packet = await db.query.packets.findFirst({
+  where: eq(packets.id, id),
+  with: {
+    packetCategories: true,
+  },
+});
+
+// 3. Handle 404 if the user navigates to an invalid ID
+if (!packet) {
+  return Astro.redirect("/404");
+}
+
+// 4. Map the database record to the structure expected by PacketForm.vue
+const initialData = {
+  id: packet.id,
+  name: packet.name,
+  language: packet.language,
+  imageUrl: packet.imageUrl,
+  rating: packet.rating,
+  dateAcquired: packet.dateAcquired || "",
+  locationAcquired: packet.locationAcquired || "",
+  comment: packet.comment || "",
+  categoryIds: packet.packetCategories.map((pc) => pc.categoryId),
+};
+---
+
+<BaseLayout title={`Modifica ${packet.name} — Haribo Tracker`}>
+  <div class="pt-4">
+    <PacketForm
+      client:only="vue"
+      categories={allCategories}
+      isEdit={true}
+      initialData={initialData}
+    />
+  </div>
+</BaseLayout>

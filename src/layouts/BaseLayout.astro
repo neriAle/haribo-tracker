@@ -1,0 +1,36 @@
+---
+import "../styles/global.css";
+import Header from "../components/Header.astro";
+
+interface Props {
+  title?: string;
+  showHeader?: boolean;
+}
+
+const { title = "Haribo Tracker", showHeader = true } = Astro.props;
+---
+
+<html lang="it">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>{title}</title>
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+  </head>
+  <body
+    class="flex min-h-screen flex-col bg-neutral-50 font-sans text-neutral-900 select-none"
+  >
+    {showHeader && <Header />}
+
+    <main class="mx-auto flex w-full max-w-5xl flex-1 flex-col p-4">
+      <slot />
+    </main>
+  </body>
+</html>

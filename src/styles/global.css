@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "cropperjs/dist/cropper.css";
 
 :root {
   --brand-yellow: #ffca28;

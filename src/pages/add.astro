@@ -1,0 +1,15 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PacketForm from "../components/PacketForm.vue";
+import { db } from "../db";
+import { categories } from "../db/schema";
+
+// Fetch the available categories for the picker
+const allCategories = await db.select().from(categories);
+---
+
+<BaseLayout title="Nuovo Pacchetto — Haribo Tracker">
+  <div class="pt-4">
+    <PacketForm client:only="vue" categories={allCategories} />
+  </div>
+</BaseLayout>
