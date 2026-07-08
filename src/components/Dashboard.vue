@@ -154,8 +154,8 @@ const displayedPackets = computed(() => {
         <button
           v-if="searchText"
           class="absolute inset-y-0 right-0 flex items-center pr-3 text-neutral-400 hover:text-neutral-600"
-          @click="searchText = ''"
           aria-label="Cerca testo"
+          @click="searchText = ''"
         >
           <svg
             class="h-4 w-4"
@@ -213,8 +213,8 @@ const displayedPackets = computed(() => {
             advancedFilters.language ||
             advancedFilters.ratingVal > 0,
         }"
-        @click="isFilterModalOpen = true"
         aria-label="Apri filtri avanzati"
+        @click="isFilterModalOpen = true"
       >
         <svg
           class="h-5 w-5"
@@ -267,11 +267,11 @@ const displayedPackets = computed(() => {
       </p>
       <button
         class="mt-4 rounded-full bg-neutral-100 px-4 py-2 text-sm font-bold text-neutral-600"
+        aria-label="Cancella ricerca"
         @click="
           searchText = '';
           selectedCategories = [];
         "
-        aria-label="Cancella ricerca"
       >
         Rimuovi Filtri Rapidi
       </button>
