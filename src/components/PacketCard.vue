@@ -27,8 +27,9 @@ defineProps<{
         :src="imageUrl"
         :alt="name"
         :loading="eagerLoad ? 'eager' : 'lazy'"
+        :fetchpriority="eagerLoad ? 'high' : 'auto'"
         decoding="async"
-        class="h-full w-full object-contain drop-shadow-md transition-transform duration-300 group-hover:scale-105"
+        class="h-50 object-contain drop-shadow-md transition-transform duration-300 group-hover:scale-105"
       />
 
       <!-- Fallback Emoji -->
