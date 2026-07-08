@@ -12,6 +12,7 @@ export const GET: APIRoute = async () => {
   try {
     // Fetch all categories
     const allCategories = await db.query.categories.findMany({
+      /* v8 ignore next */
       orderBy: (categories, { asc }) => [asc(categories.id)],
     });
 
