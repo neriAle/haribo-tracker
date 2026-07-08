@@ -59,25 +59,33 @@ Create a `.env` file in the root directory and populate it with your Turso and C
 
 ```ts
 # Database (Turso)
-TURSO_CONNECTION_URL="libsql://your-db-url.turso.io"
+TURSO_DATABASE_URL="libsql://your_db_url.turso.io"
 TURSO_AUTH_TOKEN="your_token"
 
 # Storage (Cloudflare R2)
-R2_ENDPOINT="https://your-account-id.r2.cloudflarestorage.com"
+R2_ENDPOINT="https://your_account_id.r2.cloudflarestorage.com"
 R2_ACCESS_KEY_ID="your_access_key"
 R2_SECRET_ACCESS_KEY="your_secret_key"
-R2_BUCKET_NAME="your-bucket-name"
+R2_BUCKET_NAME="your_bucket_name"
+R2_PUBLIC_URL="https://pub-your_bucket_id.r2.dev"
 
 # Auth
-SESSION_SECRET="your_secure_password"
+ADMIN_PASSWORD="your_secure_password"
+SESSION_SECRET="your_secure_cookie"
 ```
 
-### 3. Database Push
+### 3. Database Initialization
 
 Push the Drizzle schema to your SQLite database:
 
 ```sh
 npm run db:push
+```
+
+Then, seed the categories to the `categories` table, if you want to put your own categories update the array in `src/db/seed.ts`, then run:
+
+```sh
+npm run db:seed
 ```
 
 ### 4. Run Development Server
@@ -94,4 +102,10 @@ This project uses `Vitest` for API endpoints and database mocking to ensure bran
 
 ```sh
 npm run test
+```
+
+To visualize code coverage after testing, use this command instead:
+
+```sh
+npm run coverage
 ```
