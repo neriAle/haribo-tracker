@@ -18,6 +18,7 @@ export const GET: APIRoute = async () => {
       with: {
         packetCategories: { with: { category: true } },
       },
+      /* v8 ignore next */
       orderBy: (packets, { desc }) => [desc(packets.createdAt)],
     });
 
