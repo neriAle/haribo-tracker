@@ -161,7 +161,7 @@ export const PUT: APIRoute = async ({ params, request }) => {
               fileKey,
             });
           }
-        /* v8 ignore next */
+          /* v8 ignore next */
         } else {
           logger.warn("Missing R2 credentials, skipping image deletion");
         }
