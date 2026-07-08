@@ -155,6 +155,7 @@ const displayedPackets = computed(() => {
           v-if="searchText"
           class="absolute inset-y-0 right-0 flex items-center pr-3 text-neutral-400 hover:text-neutral-600"
           @click="searchText = ''"
+          aria-label="Cerca testo"
         >
           <svg
             class="h-4 w-4"
@@ -213,6 +214,7 @@ const displayedPackets = computed(() => {
             advancedFilters.ratingVal > 0,
         }"
         @click="isFilterModalOpen = true"
+        aria-label="Apri filtri avanzati"
       >
         <svg
           class="h-5 w-5"
@@ -269,6 +271,7 @@ const displayedPackets = computed(() => {
           searchText = '';
           selectedCategories = [];
         "
+        aria-label="Cancella ricerca"
       >
         Rimuovi Filtri Rapidi
       </button>
