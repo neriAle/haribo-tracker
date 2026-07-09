@@ -7,7 +7,7 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits<{
-  (e: "crop", blob): void;
+  (e: "crop", blob: Blob): void;
   (e: "cancel"): void;
 }>();
 
@@ -73,7 +73,9 @@ const handleCrop = () => {
   <div
     class="fixed inset-0 z-50 flex touch-none flex-col bg-black/95 backdrop-blur-md"
   >
-    <div class="pt-safe flex items-center justify-between p-4 text-white">
+    <div
+      class="flex items-center justify-between px-4 pt-[calc(env(safe-area-inset-top)+1rem)] pb-4 text-white"
+    >
       <button
         type="button"
         class="shrink-0 text-sm font-medium transition-opacity hover:opacity-70"
@@ -107,8 +109,7 @@ const handleCrop = () => {
       </div>
     </div>
 
-    <!-- Bottom Spacer for ergonomic iPhone thumb reach -->
-    <div class="pb-safe h-12 w-full"></div>
+    <div class="h-12 w-full pb-[env(safe-area-inset-bottom)]"></div>
   </div>
 </template>
 
