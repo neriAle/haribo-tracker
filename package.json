@@ -42,7 +42,7 @@
     "@vitest/coverage-v8": "^4.1.10",
     "dotenv": "^17.4.2",
     "drizzle-kit": "^0.31.10",
-    "eslint": "^10.6.0",
+    "eslint": "^10.8.0",
     "eslint-plugin-astro": "^3.0.0",
     "eslint-plugin-vue": "^10.9.2",
     "globals": "^17.7.0",
