@@ -24,7 +24,7 @@
     "@astrojs/cloudflare": "^14.1.6",
     "@astrojs/vue": "^7.0.1",
     "@libsql/client": "^0.17.4",
-    "@tailwindcss/vite": "^4.3.2",
+    "@tailwindcss/vite": "^4.3.3",
     "astro": "^7.1.4",
     "aws4fetch": "^1.0.20",
     "cropperjs": "1.5.13",
