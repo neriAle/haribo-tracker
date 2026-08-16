@@ -27,7 +27,7 @@ const props = defineProps<{
 // State
 const searchText = ref("");
 const selectedCategories = ref<string[]>([]);
-const sortOption = ref("name-asc");
+const sortOption = ref("date-desc");
 const isFilterModalOpen = ref(false);
 
 const advancedFilters = ref({
